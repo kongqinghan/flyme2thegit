@@ -8,10 +8,11 @@ import "fmt"
 type Worker struct {
 	totalTasks int
 	timeMs int64
+	task func(i int)
 }
 
-func Run(total int, speed int64) {
-	w := &Worker{total, speed}
+func Run(total int, speed int64, fn func(i int)) {
+	w := &Worker{total, speed, fn}
 	w.start()
 }
 
@@ -23,9 +24,7 @@ func (w *Worker) start() {
 		go func(id int) {
 			defer wg.Done()
 			if l.Allow() {
-				fmt.Println(id, "allow")
-			} else {
-				fmt.Println(id, "forbid")
+				w.task(id)
 			}
 		}(i)
 		time.Sleep(time.Duration(w.timeMs*1e6))
