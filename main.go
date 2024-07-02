@@ -1,7 +1,6 @@
 package main
 
-import "fmt"
-
+import  "github.com/kongqinghan/flyme2thegit/worker"
 func main() {
-	fmt.Println("hello, world")
+	worker.Run(10, int64(200))
 }
